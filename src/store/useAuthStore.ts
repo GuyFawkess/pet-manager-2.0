@@ -140,7 +140,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 // Custom hook to handle initialization
 export const useAuthInit = () => {
-    const { initialized, checkUserStatus } = useAuthStore();
+    const initialized = useAuthStore(state => state.initialized);
+    const checkUserStatus = useAuthStore(state => state.checkUserStatus);
+    const loading = useAuthStore(state => state.loading);
+    const user = useAuthStore(state => state.user);
+    const error = useAuthStore(state => state.error);
 
     useEffect(() => {
         if (!initialized) {
@@ -148,10 +152,5 @@ export const useAuthInit = () => {
         }
     }, [initialized, checkUserStatus]);
 
-    return useAuthStore(state => ({
-        loading: state.loading,
-        user: state.user,
-        error: state.error,
-    }))
-
-}
+    return { loading, user, error };
+};
