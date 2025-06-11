@@ -37,23 +37,36 @@ export const useAuthStore = create<AuthState>((set) => ({
     loginUser: async (userInfo: Credentials) => {
         set({ loading: true, error: null });
         try {
+            // First try to get current session
+            try {
+                await account.get();
+                // If successful, user is already logged in
+                // Delete current session before creating new one
+                await account.deleteSession('current');
+            } catch {
+                // No active session, continue with login
+            }
+
+            // Now create new session
             await account.createEmailPasswordSession(
                 userInfo.email,
                 userInfo.password
             );
             const accountDetails = await account.get();
-            set({ user: {
-                id: accountDetails.$id,
-                name: accountDetails.name,
-                email: accountDetails.email
-            } });
+            set({ 
+                user: {
+                    id: accountDetails.$id,
+                    name: accountDetails.name,
+                    email: accountDetails.email
+                }
+            });
         } catch (error: any) {
-            set({
+            set({ 
                 error: {
                     code: error.code || 'AUTH_ERROR',
-                    message: error.message || 'An error occurred during authentication.'
+                    message: error.message || 'An error occurred during login'
                 }
-            })
+            });
         } finally {
             set({ loading: false });
         }
