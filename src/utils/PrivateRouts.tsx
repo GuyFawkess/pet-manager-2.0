@@ -19,6 +19,6 @@ const PrivateRoutes: FC = () => {
         return <Navigate to="/" />
     }
     return user ? <Outlet /> : <Navigate to="/login" />
-}
+} 
 
 export default PrivateRoutes;
