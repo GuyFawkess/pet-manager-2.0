@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, FormEvent } from 'react'
+import { useEffect, useRef } from 'react'
+import type { FC, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/useAuthStore'
 
@@ -34,7 +35,7 @@ const Login: FC = () => {
 
   return (
     <div className="h-screen flex items-center bg-[url('/fish_bowl.svg')] 
-    bg-no-repeat bg-[length:50%] bg-[position:right_top]">
+    bg-no-repeat bg-[length:65%] bg-[position:right]">
       <div className='mx-auto'>
         <form ref={loginForm} onSubmit={handleSubmit}>
           <div className="mx-0 my-[1em]">
